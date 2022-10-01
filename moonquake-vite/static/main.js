@@ -26,26 +26,76 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
 });
 
+// constant variables
+const pi = Math.PI
+const unitToRes = 61.1155 // of normal map
+const moonRadius = 15
+
+
+// util functions
+let canvas = document.createElement('canvas');
+let context = canvas.getContext('2d');
+let data = null;
+
+const axesHelper = new THREE.AxesHelper( 25 );
+scene.add( axesHelper );
+
+const getPixelData = (context, x, y) => {
+    // returns grayscale data (remove [0] to return all data)
+    return context.getImageData(x, y, 1, 1).data[0] - 127;
+}
+
+const findZ = (x, y) => {
+    const n = unitToRes * (getPixelData(context, x, y) / 127)
+    let dx = x / unitToRes
+    let dy = y / unitToRes
+
+    return Math.sqrt((moonRadius * moonRadius) + (n * n) + (2 * n * moonRadius) - (dx * dx) - (dy * dy))
+}
+
+const drawSphere = (x, y) => {
+    const z = findZ(x, y)
+    const sphereMaterial = new THREE.MeshStandardMaterial({color: "yellow"})
+    const SphereGeometry = new THREE.SphereGeometry((1 / 41), 1, 1)
+    const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial)
+    scene.add(sphere)
+    console.log(x / unitToRes, y / unitToRes, z / unitToRes)
+    sphere.position.x = x / unitToRes
+    sphere.position.y = y / unitToRes
+    sphere.position.z = z / unitToRes
+}
+
+// loading displacement map for future calculations
+const displacementMap = new Image()
+displacementMap.src = './static/models/normal.jpg'
+displacementMap.addEventListener("load", () => {
+    context.drawImage(displacementMap, 0, 0)
+
+    // find color value of displacement Map
+    // data = getPixelData(context, -200, 100)
+    // console.log(data)
+})
+
+drawSphere(200, 200)
+
 const light = new THREE.AmbientLight(0xffffff);
 scene.add(light);
 
-const moonTexture = new THREE.TextureLoader().load("./static/models/moon.jpg");
-const moonNormal = new THREE.TextureLoader().load("./static/models/normal.jpg");
+const moonTexture = new THREE.TextureLoader().load('./static/models/moon.jpg')
+const moonDisplacement = new THREE.TextureLoader().load('./static/models/normal.jpg')
 
-const moonMaterial = new THREE.MeshStandardMaterial({
-  map: moonTexture,
-  displacementMap: moonNormal,
+const moonMaterial = new THREE.MeshStandardMaterial({ 
+    map: moonTexture, 
+    displacementMap: moonDisplacement,
 });
 
-const moonGeometry = new THREE.SphereGeometry(13, 100, 100);
-
-const moon = new THREE.Mesh(moonGeometry, moonMaterial);
-
+const moonGeometry = new THREE.SphereGeometry( moonRadius, 200, 200 );
+const moon = new THREE.Mesh( moonGeometry, moonMaterial );
 moon.castShadow = true;
 
 scene.add(moon);
 
-camera.position.z = 25; // <- New code
+camera.position.z = 30; // <- New code
 
 const addStar = () => {
   const g = new THREE.SphereGeometry(0.1, 24, 24);
@@ -62,33 +112,25 @@ const addStar = () => {
 let prevClientX = 0;
 let prevClientY = 0;
 function mouseMoveEvent(e) {
-  /*if (e.clientX - window.innerWidth / 2 < prevClientX) {
-      moon.rotation.y += (e.clientX - window.innerWidth) / 20000;
-    prevClientX = e.clientX - window.innerWidth / 2;
-  } else {
-      moon.rotation.y -= (e.clientX - window.innerWidth) / 20000;
-    prevClientX = e.clientX - window.innerWidth / 2;
-  }*/
   if (e.clientX - window.innerWidth / 2 < prevClientX) {
 		  const rotationVal = prevClientX - (e.clientX - window.innerWidth / 2)
-		  console.log(rotationVal*0.0001, "rotationVal up")
-      moon.rotation.y -= rotationVal * 0.001;
+      moon.rotation.y -= rotationVal * 0.006;
     prevClientX = e.clientX - window.innerWidth / 2;
   } else if(e.clientX - window.innerWidth / 2 > prevClientX){
 		  const rotationVal =  (e.clientX - window.innerWidth / 2) - prevClientX
 		  console.log(rotationVal*0.0001, "rotationVal down")
-      moon.rotation.y += rotationVal * 0.001;
+      moon.rotation.y += rotationVal * 0.006;
     prevClientX = e.clientX - window.innerWidth / 2;
   }
   if (e.clientY - window.innerHeight / 2 < prevClientY) {
 		  const rotationVal = prevClientY - (e.clientY - window.innerHeight / 2)
 		  console.log(rotationVal*0.0001, "rotationVal up")
-      moon.rotation.x -= rotationVal * 0.001;
+      moon.rotation.x -= rotationVal * 0.006;
     prevClientY = e.clientY - window.innerHeight / 2;
   } else if(e.clientY - window.innerHeight / 2 > prevClientY){
 		  const rotationVal =  (e.clientY - window.innerHeight / 2) - prevClientY
 		  console.log(rotationVal*0.0001, "rotationVal down")
-      moon.rotation.x += rotationVal * 0.001;
+      moon.rotation.x += rotationVal * 0.006;
     prevClientY = e.clientY - window.innerHeight / 2;
   }
 }
@@ -100,13 +142,13 @@ function mouseUpEvent(e) {
 }
 document.addEventListener("mouseup", mouseUpEvent);
 Array(300).fill().forEach(addStar);
-//const controls = new OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 const rendering = () => {
   requestAnimationFrame(rendering);
 
   // Constantly rotate box
   moon.rotation.y += 0.002;
-  //controls.update();
+  controls.update();
   renderer.render(scene, camera);
 };
 

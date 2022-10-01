@@ -50,14 +50,14 @@ const findZ = (x, y) => {
 
 const drawSphere = (x, y) => {
     const z = findZ(x, y)
-    const sphereMaterial = new THREE.MeshStandardMaterial({color: "yellow"})
-    const SphereGeometry = new THREE.SphereGeometry((1 / 41), 1, 1)
+    const sphereMaterial = new THREE.MeshStandardMaterial({color: "red"})
+    const SphereGeometry = new THREE.SphereGeometry((1 / 21), 1, 1)
     const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial)
     scene.add(sphere)
     console.log(x / unitToRes, y / unitToRes, z / unitToRes)
     sphere.position.x = x / unitToRes
     sphere.position.y = y / unitToRes
-    sphere.position.z = z / unitToRes
+    sphere.position.z = -(z / unitToRes) + moonRadius
 }
 
 // loading displacement map for future calculations
@@ -71,7 +71,7 @@ displacementMap.addEventListener("load", () => {
     // console.log(data)
 })
 
-drawSphere(200, 200)
+drawSphere(200, 400)
 
 const light = new THREE.AmbientLight(0xffffff);
 scene.add(light);
@@ -109,7 +109,7 @@ const rendering = () => {
     requestAnimationFrame(rendering);
 
     // Constantly rotate box
-	moon.rotation.y += 0.002;
+	// moon.rotation.y += 0.002;
 	controls.update();
     renderer.render(scene, camera);
 }

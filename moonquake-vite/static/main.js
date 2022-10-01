@@ -6,63 +6,61 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 
 const renderer = new THREE.WebGLRenderer();
 
+// renderer settings
 renderer.shadowMap.enabled = true;
-
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; //
-
 renderer.setClearColor("black");
-
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
-const light = new THREE.AmbientLight(0xffffff);
-scene.add(light);
-
-
-// light2.castShadow = true; // default false
-
+// resize renderer from window
 window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 })
 
+const light = new THREE.AmbientLight(0xffffff);
+scene.add(light);
+
 const moonTexture = new THREE.TextureLoader().load('./static/models/moon.jpg')
 const moonNormal = new THREE.TextureLoader().load('./static/models/normal.jpg')
 
-const geometry = new THREE.SphereGeometry( 13, 45, 32 );
-
-const material = new THREE.MeshStandardMaterial( { 
+const moonMaterial = new THREE.MeshStandardMaterial({ 
     map: moonTexture, 
     displacementMap: moonNormal
-} );
+});
 
-const sphere = new THREE.Mesh( geometry, material );
+const moonGeometry = new THREE.SphereGeometry( 13, 100, 100 );
 
-sphere.castShadow = true;
+const moon = new THREE.Mesh( moonGeometry, moonMaterial );
 
-scene.add( sphere );
+moon.castShadow = true;
+
+scene.add( moon );
 
 camera.position.z = 25; // <- New code
 
-function addStar() {
-		const g = new THREE.SphereGeometry(0.1, 24, 24);
-		const m = new THREE.MeshStandardMaterial( { color: 0xffffff } );
-		const star = new THREE.Mesh(g, m);
-		const z = THREE.MathUtils.randFloatSpread(10) - 15;
-		const [x, y] = Array(2).fill().map(() => THREE.MathUtils.randFloatSpread( 150 ) );
-		star.position.set(x, y, z);
-		scene.add(star);
+const addStar = () => {
+    const g = new THREE.SphereGeometry(0.1, 24, 24);
+    const m = new THREE.MeshStandardMaterial( { color: 0xffffff } );
+    const star = new THREE.Mesh(g, m);
+    const z = THREE.MathUtils.randFloatSpread(10) - 15;
+    const [x, y] = Array(2).fill().map(() => THREE.MathUtils.randFloatSpread( 150 ) );
+    star.position.set(x, y, z);
+    scene.add(star);
 }
+
 Array(300).fill().forEach(addStar);
+
 const controls = new OrbitControls(camera, renderer.domElement);
-const rendering = function() {
+const rendering = () => {
     requestAnimationFrame(rendering);
 
     // Constantly rotate box
-	sphere.rotation.y += 0.002;
-		controls.update();
+	moon.rotation.y += 0.002;
+	controls.update();
     renderer.render(scene, camera);
 }
 

@@ -16,8 +16,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
-const light = new THREE.DirectionalLight( 0xffffff, 1 );
-light.position.set( 0, 1, 0 ); //default; light shining from top
+const light = new THREE.PointLight( 0xffffff, 5, 100 );
+light.position.set( 2, 4, 5 );
 light.castShadow = true; // default false
 scene.add( light );
 
@@ -36,7 +36,7 @@ const geometry = new THREE.SphereGeometry( 1, 32, 32 );
 
 
 
-const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+const material = new THREE.MeshStandardMaterial( { color: 0xffff00 } );
 
 const sphere = new THREE.Mesh( geometry, material );
 
@@ -45,16 +45,16 @@ sphere.receiveShadow = true;
 
 scene.add( sphere );
 
-const helper = new THREE.DirectionalLightHelper( light, 5 );
-scene.add( helper );
 
 camera.position.z = 5; // <- New code
 
+//Create a helper for the shadow camera (optional)
+//const helper = new THREE.CameraHelper( light.shadow.camera );
+//scene.add( helper );
 const rendering = function() {
     requestAnimationFrame(rendering);
     // Constantly rotate box
-    scene.rotation.z -= 0.005;
-    scene.rotation.x -= 0.01;
+	sphere.rotation.x += 0.1;
     renderer.render(scene, camera);
 }
 rendering();

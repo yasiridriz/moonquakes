@@ -53,8 +53,8 @@ camera.position.z = 5; // <- New code
 //scene.add( helper );
 //
 //
-const spaceTexture = new THREE.TextureLoader().load('./space.jpg');
-scene.background = spaceTexture;
+const loader = new THREE.TextureLoader().load('./static/space3.jpeg')
+scene.background = loader;
 
 const rendering = function() {
     requestAnimationFrame(rendering);

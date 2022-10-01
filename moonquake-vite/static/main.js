@@ -10,7 +10,7 @@ renderer.shadowMap.enabled = true;
 
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; //
 
-renderer.setClearColor("lightblue");
+renderer.setClearColor("black");
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -53,9 +53,15 @@ camera.position.z = 5; // <- New code
 //scene.add( helper );
 //
 //
-const loader = new THREE.TextureLoader().load('./static/space3.jpeg')
-scene.background = loader;
-
+function addStar() {
+		const g = new THREE.SphereGeometry(0.25, 24, 24);
+		const m = new THREE.MeshStandardMaterial( { color: 0xffffff } );
+		const star = new THREE.Mesh(g, m);
+		const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread( 100 ) );
+		star.position.set(x, y, z);
+		scene.add(star);
+}
+Array(50).fill().forEach(addStar);
 const rendering = function() {
     requestAnimationFrame(rendering);
     // Constantly rotate box

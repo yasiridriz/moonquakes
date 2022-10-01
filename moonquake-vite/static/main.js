@@ -31,6 +31,9 @@ const pi = Math.PI
 const unitToRes = 61.1155 // of normal map
 const moonRadius = 15
 
+const displacementWidth = 5760
+const displacementHeight = 2880
+
 // util functions
 let canvas = document.createElement('canvas');
 let context = canvas.getContext('2d');
@@ -58,11 +61,26 @@ const drawSphere = (x, y) => {
     const SphereGeometry = new THREE.SphereGeometry((1 / 21), 1, 1)
     const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial)
     scene.add(sphere)
-    console.log(x / unitToRes, y / unitToRes, z / unitToRes)
+    console.log(x / unitToRes, y / unitToRes, -(z / unitToRes) + moonRadius)
     sphere.position.x = x / unitToRes
     sphere.position.y = y / unitToRes
     sphere.position.z = -(z / unitToRes) + moonRadius
 }
+
+
+const drawSphereWithLatLong = (lat, long) => {
+    
+    // const n = unitToRes * (getPixelData(context, x, y) / 127)
+    const d = moonRadius
+    
+    let x = (d / Math.sin(lat)) * moonRadius 
+    let y = (d / Math.sin(long)) * moonRadius 
+
+    drawSphere(x, y)
+
+}
+
+drawSphereWithLatLong(90, 90)
 
 // loading displacement map for future calculations
 const displacementMap = new Image()
@@ -75,7 +93,7 @@ displacementMap.addEventListener("load", () => {
     // console.log(data)
 })
 
-drawSphere(200, 400)
+// drawSphere(200, 400)
 
 const light = new THREE.AmbientLight(0xffffff);
 scene.add(light);

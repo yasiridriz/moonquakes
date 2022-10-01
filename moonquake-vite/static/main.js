@@ -19,7 +19,7 @@ document.body.appendChild(renderer.domElement);
 const light = new THREE.PointLight( 0xffffff, 5, 100 );
 light.position.set( 2, 4, 5 );
 light.castShadow = true; // default false
-light.intensity = 0.5
+light.intensity = 0.6
 scene.add( light );
 
 light.shadow.mapSize.width = window.innerWidth; // default
@@ -49,11 +49,6 @@ scene.add( sphere );
 
 camera.position.z = 5; // <- New code
 
-//Create a helper for the shadow camera (optional)
-//const helper = new THREE.CameraHelper( light.shadow.camera );
-//scene.add( helper );
-//
-//
 function addStar() {
 		const g = new THREE.SphereGeometry(0.25, 24, 24);
 		const m = new THREE.MeshStandardMaterial( { color: 0xffffff } );
@@ -62,11 +57,14 @@ function addStar() {
 		star.position.set(x, y, z);
 		scene.add(star);
 }
-Array(50).fill().forEach(addStar);
+Array(200).fill().forEach(addStar);
+
 const rendering = function() {
     requestAnimationFrame(rendering);
+
     // Constantly rotate box
 	sphere.rotation.y += 0.002;
     renderer.render(scene, camera);
 }
+
 rendering();

@@ -31,7 +31,6 @@ const pi = Math.PI
 const unitToRes = 61.1155 // of normal map
 const moonRadius = 15
 
-
 // util functions
 let canvas = document.createElement('canvas');
 let context = canvas.getContext('2d');
@@ -108,47 +107,54 @@ const addStar = () => {
   star.position.set(x, y, z);
   scene.add(star);
 };
+
 // rotation logic
 let prevClientX = 0;
 let prevClientY = 0;
-function mouseMoveEvent(e) {
+
+const mouseMoveEvent = (e) => {
   if (e.clientX - window.innerWidth / 2 < prevClientX) {
-		  const rotationVal = prevClientX - (e.clientX - window.innerWidth / 2)
-      moon.rotation.y -= rotationVal * 0.006;
+	const rotationVal = prevClientX - (e.clientX - window.innerWidth / 2)
+    moon.rotation.y -= rotationVal * 0.006;
     prevClientX = e.clientX - window.innerWidth / 2;
-  } else if(e.clientX - window.innerWidth / 2 > prevClientX){
-		  const rotationVal =  (e.clientX - window.innerWidth / 2) - prevClientX
-		  console.log(rotationVal*0.0001, "rotationVal down")
-      moon.rotation.y += rotationVal * 0.006;
+  } 
+  else if (e.clientX - window.innerWidth / 2 > prevClientX){
+	const rotationVal =  (e.clientX - window.innerWidth / 2) - prevClientX
+    moon.rotation.y += rotationVal * 0.006;
     prevClientX = e.clientX - window.innerWidth / 2;
   }
+
   if (e.clientY - window.innerHeight / 2 < prevClientY) {
-		  const rotationVal = prevClientY - (e.clientY - window.innerHeight / 2)
-		  console.log(rotationVal*0.0001, "rotationVal up")
-      moon.rotation.x -= rotationVal * 0.006;
+    const rotationVal = prevClientY - (e.clientY - window.innerHeight / 2)
+    moon.rotation.x -= rotationVal * 0.006;
     prevClientY = e.clientY - window.innerHeight / 2;
-  } else if(e.clientY - window.innerHeight / 2 > prevClientY){
-		  const rotationVal =  (e.clientY - window.innerHeight / 2) - prevClientY
-		  console.log(rotationVal*0.0001, "rotationVal down")
-      moon.rotation.x += rotationVal * 0.006;
+  } 
+  else if(e.clientY - window.innerHeight / 2 > prevClientY){
+    const rotationVal =  (e.clientY - window.innerHeight / 2) - prevClientY
+    moon.rotation.x += rotationVal * 0.006;
     prevClientY = e.clientY - window.innerHeight / 2;
   }
 }
+
 document.addEventListener("mousedown", (e) => {
-  document.addEventListener("mousemove", mouseMoveEvent);
+    document.addEventListener("mousemove", mouseMoveEvent);
 });
-function mouseUpEvent(e) {
-  document.removeEventListener("mousemove", mouseMoveEvent);
+
+const mouseUpEvent = (e) => {
+    document.removeEventListener("mousemove", mouseMoveEvent);
 }
+
 document.addEventListener("mouseup", mouseUpEvent);
+
 Array(300).fill().forEach(addStar);
-const controls = new OrbitControls(camera, renderer.domElement);
+
+// const controls = new OrbitControls(camera, renderer.domElement);
 const rendering = () => {
   requestAnimationFrame(rendering);
 
     // Constantly rotate box
 	// moon.rotation.y += 0.002;
-	controls.update();
+	// controls.update();
     renderer.render(scene, camera);
 }
 

@@ -55,32 +55,35 @@ const findZ = (x, y) => {
     return Math.sqrt((moonRadius * moonRadius) + (n * n) + (2 * n * moonRadius) - (dx * dx) - (dy * dy))
 }
 
-const drawSphere = (x, y) => {
+const drawSphere = (x, y, testZ) => {
     const z = findZ(x, y)
     const sphereMaterial = new THREE.MeshStandardMaterial({color: "red"})
-    const SphereGeometry = new THREE.SphereGeometry((1 / 21), 1, 1)
+    const SphereGeometry = new THREE.SphereGeometry(1, 40, 40)
     const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial)
     scene.add(sphere)
-    console.log(x / unitToRes, y / unitToRes, -(z / unitToRes) + moonRadius)
-    sphere.position.x = x / unitToRes
+    /*sphere.position.x = x / unitToRes
     sphere.position.y = y / unitToRes
-    sphere.position.z = -(z / unitToRes) + moonRadius
+    sphere.position.z = -(z / unitToRes) + moonRadius*/
+		console.log(`x: ${x}, y: ${y}`)
+		sphere.position.x = x ;
+		sphere.position.y = y;
+		sphere.position.z = testZ;
 }
 
 
 const drawSphereWithLatLong = (lat, long) => {
     
     // const n = unitToRes * (getPixelData(context, x, y) / 127)
-    const d = moonRadius
+    const d = moonRadius  
     
-    let x = (d / Math.sin(lat)) * moonRadius 
-    let y = (d / Math.sin(long)) * moonRadius 
-
-    drawSphere(x, y)
+    let x = d * Math.sin(long * pi/180)
+    let y = d * Math.sin(lat * pi/180) 
+    let z = d * Math.sin((90 - long) * pi/180)
+    drawSphere(x, y, z)
 
 }
 
-drawSphereWithLatLong(90, 90)
+drawSphereWithLatLong(0, 0)
 
 // loading displacement map for future calculations
 const displacementMap = new Image()
@@ -109,10 +112,9 @@ const moonMaterial = new THREE.MeshStandardMaterial({
 const moonGeometry = new THREE.SphereGeometry( moonRadius, 200, 200 );
 const moon = new THREE.Mesh( moonGeometry, moonMaterial );
 moon.castShadow = true;
-
 scene.add(moon);
 
-camera.position.z = 30; // <- New code
+camera.position.z = 60; // <- New code
 
 const addStar = () => {
   const g = new THREE.SphereGeometry(0.1, 24, 24);
@@ -166,13 +168,13 @@ document.addEventListener("mouseup", mouseUpEvent);
 
 Array(300).fill().forEach(addStar);
 
-// const controls = new OrbitControls(camera, renderer.domElement);
+ const controls = new OrbitControls(camera, renderer.domElement);
 const rendering = () => {
   requestAnimationFrame(rendering);
 
     // Constantly rotate box
 	// moon.rotation.y += 0.002;
-	// controls.update();
+	 controls.update();
     renderer.render(scene, camera);
 }
 

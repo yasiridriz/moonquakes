@@ -19,6 +19,7 @@ document.body.appendChild(renderer.domElement);
 const light = new THREE.PointLight( 0xffffff, 5, 100 );
 light.position.set( 2, 4, 5 );
 light.castShadow = true; // default false
+light.intensity = 0.5
 scene.add( light );
 
 light.shadow.mapSize.width = window.innerWidth; // default
@@ -32,11 +33,12 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
 })
 
+const moonTexture = new THREE.TextureLoader().load('./static/models/moon.jpg')
+const moonNormal = new THREE.TextureLoader().load('./static/models/normal.jpg')
+
 const geometry = new THREE.SphereGeometry( 1, 32, 32 );
 
-
-
-const material = new THREE.MeshStandardMaterial( { color: 0xffff00 } );
+const material = new THREE.MeshStandardMaterial( { map: moonTexture, displacementMap: moonNormal } );
 
 const sphere = new THREE.Mesh( geometry, material );
 
@@ -45,7 +47,6 @@ sphere.receiveShadow = true;
 
 scene.add( sphere );
 
-
 camera.position.z = 5; // <- New code
 
 //Create a helper for the shadow camera (optional)
@@ -53,13 +54,13 @@ camera.position.z = 5; // <- New code
 //scene.add( helper );
 //
 //
-const spaceTexture = new THREE.TextureLoader().load('./space.jpg');
+const spaceTexture = new THREE.TextureLoader().load('./static/space.jpg')
 scene.background = spaceTexture;
 
 const rendering = function() {
     requestAnimationFrame(rendering);
     // Constantly rotate box
-	sphere.rotation.x += 0.1;
+	sphere.rotation.y += 0.002;
     renderer.render(scene, camera);
 }
 rendering();

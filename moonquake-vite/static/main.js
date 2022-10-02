@@ -43,9 +43,10 @@ const type = document.getElementById("type")
 const axesHelper = new THREE.AxesHelper(25);
 // scene.add( axesHelper );
 
-const moonTexture = new THREE.TextureLoader().load("./models/moon.jpg");
+
+const moonTexture = new THREE.TextureLoader().load("/models/moon.jpg");
 const moonDisplacement = new THREE.TextureLoader().load(
-  "./models/normal.jpg"
+  "/models/normal.jpg"
 );
 
 const moonMaterial = new THREE.MeshStandardMaterial({

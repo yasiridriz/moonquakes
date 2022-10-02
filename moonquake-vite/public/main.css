@@ -40,7 +40,9 @@ canvas {
     border: 1px solid rgba(255, 255, 255, 0.3); 
     color: white;
 }
-
+.filterbox #slider {
+ 	width: 100%;
+}
 .dropdownbutton {
     position: absolute;
     display: block;
@@ -65,7 +67,6 @@ canvas {
     height: 10px;
     margin-bottom: 2px;
     border-radius: 50%;
-<<<<<<< HEAD
 }
 
 .infocontainer {
@@ -164,6 +165,3 @@ canvas {
     
 
   }
-=======
-}
->>>>>>> parent of 1804e49 (slider added)

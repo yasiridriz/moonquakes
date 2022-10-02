@@ -33,18 +33,18 @@ let smArr = []
 let dmArr = []
 let aiArr = []
 let spheres = []
-const infoDiv = document.getElementById("infoDiv")
 const year = document.getElementById("year")
 const lat = document.getElementById("lat")
 const long = document.getElementById("long")
 const type = document.getElementById("type")
 const rotate = document.getElementById("rotate")
+let INTERSECTED;
+let currentId;
+let rB;
 
 // util functions
-const axesHelper = new THREE.AxesHelper(25);
+
 // scene.add( axesHelper );
-
-
 const moonTexture = new THREE.TextureLoader().load("/models/moon.jpg");
 const moonDisplacement = new THREE.TextureLoader().load(
   "/models/normal.jpg"
@@ -66,7 +66,6 @@ const drawSphere = (x, y, testZ, color, size, data) => {
   const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial);
 
   moon.add(sphere);
-  // console.log(`x: ${x}, y: ${y}`);
 
   sphere.position.x = x;
   sphere.position.y = y;
@@ -86,9 +85,7 @@ const drawSphere = (x, y, testZ, color, size, data) => {
   if (color === "red") {
     dmArr.push({sphere: sphere, data: data})
     spheres.push({sphere: sphere, data: data, type: "Deep Moonquake"})
-  }
-  
-  
+  }  
 };
 
 const drawSphereWithLatLong = (lat, long, color, size, data) => {
@@ -252,23 +249,16 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.minDistance = 20;
 controls.maxDistance = 45;
 
-console.log(spheres)
-
 // raycaster
-
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
 // spheres onclick foreach
 window.addEventListener( 'pointermove', onPointerMove );
+
 function onPointerMove( event ) {
-
-	// calculate pointer position in normalized device coordinates
-	// (-1 to +1) for both components
-
 	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
 }
 
 spheres.forEach((sphere) => {
@@ -278,15 +268,10 @@ spheres.forEach((sphere) => {
   })
 })
 
-let INTERSECTED;
-let currentId;
-let rB;
-
 const rendering = () => {
   requestAnimationFrame(rendering);
 
   raycaster.setFromCamera( pointer, camera );
-
 
   const intersects = raycaster.intersectObjects( moon.children, false );
   if ( intersects.length > 0 ) {
@@ -295,9 +280,10 @@ const rendering = () => {
       INTERSECTED = intersects[ 0 ].object;
       INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
       INTERSECTED.material.emissive.setHex( 0xffffff );
+
       currentId = INTERSECTED.uuid
       const currentData = spheres.find((sphere) => sphere.sphere.uuid == currentId)
-      // infoDiv.innerHTML = 
+
       year.innerHTML = currentData.data.year
       lat.innerHTML = currentData.data.lat
       long.innerHTML = currentData.data.long

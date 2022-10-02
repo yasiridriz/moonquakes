@@ -213,7 +213,7 @@ window.onload = (event) => {
   getData("http://localhost:8000");
 };
 
-const light = new THREE.PointLight( 0xffffff, 1.3, 0 );
+const light = new THREE.PointLight( 0xffffff, 1, 0 );
 light.position.set( 30, 30, 70 );
 scene.add(camera);
 camera.add(light);

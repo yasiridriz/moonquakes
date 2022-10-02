@@ -229,6 +229,165 @@ const rendering = () => {
     rB = true;
   }
 
+window.addEventListener( 'pointermove', onPointerMove );
+
+function onPointerMove( event ) {
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+}
+
+spheres.forEach((sphere) => {
+  s = sphere.sphere
+  s.on('click', () => {
+    console.log(sphere.data)
+  })
+})
+
+				}
+
+			})
+	}else if(v > 5 && v < factor){
+			
+			sliderYear.innerText = "1969"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1969) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor && v < factor*2){
+			
+			sliderYear.innerText = "1970"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1970) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > 2*factor && v < factor*3){
+			
+			sliderYear.innerText = "1971"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1971) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 3  && v < factor*4){
+			
+			sliderYear.innerText = "1972"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1972) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 4 && v < factor * 5){
+			
+			sliderYear.innerText = "1973"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1973) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 5  && v < factor*6){
+			
+			sliderYear.innerText = "1974"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1974) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 6  && v < factor* 7 ){
+			
+			sliderYear.innerText = "1975"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1975) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 7  && v < 100){
+			
+			sliderYear.innerText = "1976"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1976) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+    else if(v == 100){
+		sliderYear.innerText = "All"
+		spheres.forEach(sphere => {
+			moon.add(sphere.sphere)
+
+		})
+	}
+	
+})
+const rendering = () => {
+  requestAnimationFrame(rendering);
+
+  raycaster.setFromCamera( pointer, camera );
+
+  const intersects = raycaster.intersectObjects( moon.children, false );
+  if ( intersects.length > 0 ) {
+    if ( INTERSECTED != intersects[ 0 ].object ) {
+      if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+      INTERSECTED = intersects[ 0 ].object;
+      INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+      INTERSECTED.material.emissive.setHex( 0xffffff );
+
+      currentId = INTERSECTED.uuid
+      const currentData = spheres.find((sphere) => sphere.sphere.uuid == currentId)
+
+      year.innerHTML = currentData.data.year
+      lat.innerHTML = currentData.data.lat
+      long.innerHTML = currentData.data.long
+      type.innerHTML = currentData.type;
+      rB = false
+    }
+  } 
+  else {
+    if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+    INTERSECTED = null;
+    rB = true
+  }
+  
   if (rB && rotate.checked) {
     moon.rotation.x += 0.0009;
     moon.rotation.y += 0.0009;

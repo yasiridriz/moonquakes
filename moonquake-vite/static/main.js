@@ -280,11 +280,13 @@ spheres.forEach((sphere) => {
 
 let INTERSECTED;
 let currentId;
+let rB;
 
 const rendering = () => {
   requestAnimationFrame(rendering);
 
   raycaster.setFromCamera( pointer, camera );
+
 
   const intersects = raycaster.intersectObjects( moon.children, false );
   if ( intersects.length > 0 ) {
@@ -300,19 +302,20 @@ const rendering = () => {
       lat.innerHTML = currentData.data.lat
       long.innerHTML = currentData.data.long
       type.innerHTML = currentData.type;
+      rB = false
     }
   } 
   else {
     if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
     INTERSECTED = null;
+    rB = true
   }
-
   
-  if (rotate.checked) {    
+  if (rB && rotate.checked) {
     moon.rotation.x += 0.0009;
     moon.rotation.y += 0.0009;
     moon.rotation.z += 0.0009;
-  }
+  } 
 
   controls.update();
   renderer.render(scene, camera);

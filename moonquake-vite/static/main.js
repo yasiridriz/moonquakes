@@ -18,12 +18,8 @@ let rB;
 //initialize
 
 const scene = new THREE.Scene();
-<<<<<<< HEAD
 const slider = document.getElementById("slider");
 const sliderYear = document.getElementById("sliderYear");
-=======
-
->>>>>>> parent of 1804e49 (slider added)
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
@@ -117,7 +113,6 @@ function onPointerMove(event) {
   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-<<<<<<< HEAD
 //slider logic
 slider.addEventListener("input", (e) => {
   const v = e.target.value;
@@ -202,15 +197,6 @@ slider.addEventListener("input", (e) => {
     });
   }
 });
-=======
-spheres.forEach((sphere) => {
-  s = sphere.sphere
-  s.on('click', () => {
-    console.log(sphere.data)
-  })
-})
-
->>>>>>> parent of 1804e49 (slider added)
 const rendering = () => {
   requestAnimationFrame(rendering);
 

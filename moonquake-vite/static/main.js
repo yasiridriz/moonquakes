@@ -29,6 +29,15 @@ window.addEventListener("resize", () => {
 // constant variables
 const pi = Math.PI;
 const moonRadius = 15;
+let smArr = []
+let dmArr = []
+let aiArr = []
+let spheres = []
+const infoDiv = document.getElementById("infoDiv")
+const year = document.getElementById("year")
+const lat = document.getElementById("lat")
+const long = document.getElementById("long")
+const type = document.getElementById("type")
 
 // util functions
 const axesHelper = new THREE.AxesHelper(25);
@@ -49,27 +58,41 @@ const moon = new THREE.Mesh(moonGeometry, moonMaterial);
 moon.castShadow = true;
 scene.add(moon);
 
-const drawSphere = (x, y, testZ, color, size) => {
+const drawSphere = (x, y, testZ, color, size, data) => {
   const sphereMaterial = new THREE.MeshStandardMaterial({ color: color });
   const SphereGeometry = new THREE.SphereGeometry(size, 40, 40);
   const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial);
 
   moon.add(sphere);
-  console.log(`x: ${x}, y: ${y}`);
+  // console.log(`x: ${x}, y: ${y}`);
 
   sphere.position.x = x;
   sphere.position.y = y;
   sphere.position.z = testZ;
+
+  if (color === "yellow") {
+    smArr.push({sphere: sphere, data: data})
+  }
+
+  if (color === "blue") {
+    aiArr.push({sphere: sphere, data: data})
+  }
+
+  if (color === "red") {
+    dmArr.push({sphere: sphere, data: data})
+  }
+  
+  spheres.push({sphere: sphere, data: data})
 };
 
-const drawSphereWithLatLong = (lat, long, color, size) => {
+const drawSphereWithLatLong = (lat, long, color, size, data) => {
   const d = moonRadius + 0.4;
 
   const x = d * Math.sin((lat * pi) / 180) * Math.cos((long * pi) / 180);
   const y = d * Math.sin((lat * pi) / 180) * Math.sin((long * pi) / 180);
   const z = d * Math.cos((lat * pi) / 180);
   
-  drawSphere(x, y, z, color, size);
+  drawSphere(x, y, z, color, size, data);
 };
 
 //data logic
@@ -138,7 +161,6 @@ const data = {
 };
 
 const getData = async (url) => {
-//  const res = await fetch(url);
   console.log(data, "this is data", url);
   const { AI, SM, DM } = data;
   console.log("data fetched");
@@ -147,12 +169,14 @@ const getData = async (url) => {
   drawDM(DM);
 };
 
+
 const drawAI = (AI) => {
   const color = "blue";
   AI.Lat.forEach((lat, index) => {
-    drawSphereWithLatLong(lat, AI.Long[index], color, 0.4);
+    drawSphereWithLatLong(lat, AI.Long[index], color, 0.4, {year: AI.Y[index], lat: lat, long: AI.Long[index]});
   });
 };
+
 const drawDM = (DM) => {
   const color = "red";
   DM.Lat.forEach((lat, index) => {
@@ -160,10 +184,12 @@ const drawDM = (DM) => {
       lat,
       DM.Long[index],
       color,
-      0.00035 * DM.Depth[index]
+      0.00035 * DM.Depth[index],
+      {year: null, lat: lat, long: DM.Long[index], depth: DM.Depth[index]}
     );
   });
 };
+
 const drawSmSpheres = (SM) => {
   const color = "yellow";
   SM.Lat.forEach((lat, index) => {
@@ -171,10 +197,12 @@ const drawSmSpheres = (SM) => {
       lat,
       SM.Long[index],
       color,
-      0.15 * SM.Magnitude[index]
+      0.15 * SM.Magnitude[index],
+      {year: SM.Year[index], lat: lat, long: SM.Long[index]}
     );
   });
 };
+
 
 window.onload = (event) => {
   console.log("fetching data");
@@ -218,8 +246,62 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.minDistance = 20;
 controls.maxDistance = 45;
 
+console.log(spheres)
+
+// raycaster
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+// spheres onclick foreach
+window.addEventListener( 'pointermove', onPointerMove );
+function onPointerMove( event ) {
+
+	// calculate pointer position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+}
+
+spheres.forEach((sphere) => {
+  s = sphere.sphere
+  s.on('click', () => {
+    console.log(sphere.data)
+  })
+})
+
+let INTERSECTED;
+let currentId;
+
 const rendering = () => {
   requestAnimationFrame(rendering);
+
+  raycaster.setFromCamera( pointer, camera );
+
+  const intersects = raycaster.intersectObjects( moon.children, false );
+  if ( intersects.length > 0 ) {
+    if ( INTERSECTED != intersects[ 0 ].object ) {
+      if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+      INTERSECTED = intersects[ 0 ].object;
+      INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+      INTERSECTED.material.emissive.setHex( 0xffffff );
+      currentId = INTERSECTED.uuid
+      const currentData = spheres.find((sphere) => sphere.sphere.uuid == currentId)
+      // infoDiv.innerHTML = 
+      year.innerHTML = currentData.data.year
+      lat.innerHTML = currentData.data.lat
+      long.innerHTML = currentData.data.long
+      type.innerHTML = currentData.data.type;
+    }
+  } 
+  else {
+    if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+    INTERSECTED = null;
+  }
+
+  
 
   moon.rotation.x += 0.0009;
   moon.rotation.y += 0.0009;

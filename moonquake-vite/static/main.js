@@ -165,7 +165,7 @@ const data = {
 };
 
 const getData = async (url) => {
-  console.log(data, "this is data", url);
+  //console.log(data, "this is data", url);
   const { AI, SM, DM } = data;
   console.log("data fetched");
   drawSmSpheres(SM);
@@ -219,7 +219,8 @@ scene.add(camera);
 camera.add(light);
 
 
-camera.position.z = 30;
+
+camera.position.z = window.innerWidth < 768 ? 60 : 35;
 
 const addStar = () => {
   const g = new THREE.SphereGeometry(0.1, 24, 24);
@@ -268,7 +269,7 @@ function onPointerMove( event ) {
 spheres.forEach((sphere) => {
   s = sphere.sphere
   s.on('click', () => {
-    console.log(sphere.data)
+    //console.log(sphere.data)
   })
 })
 

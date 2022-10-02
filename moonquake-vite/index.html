@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moonquakes</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+		  <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.145.0/build/three.module.js"
+        }
+      }
+    </script>
+    <script type="module" src="./static/main.js"></script>
+    <script>
+      let container, button;
+      document.addEventListener('DOMContentLoaded', (event) => {
+        container = document.getElementById("boxescontainer");
+        button = document.getElementById("menubutton");
+
+        // window.addEventListener('resize', function (event) {
+        //   if (window.innerWidth < 768) {
+        //     let check = container.style.display === "none";
+        //     if (check)
+        //       button.classList.remove("change");
+        //   }
+        // }, true);
+      })
+      function toggleMenu(x) {
+          if (container.style.display === "none") {
+            x.classList.toggle("change");
+            container.style.display = "block";
+          } else {
+            x.classList.toggle("change");
+            container.style.display = "none";
+          }
+        } 
+      
+    </script>
+    <div id="app">
+      <div class="menubutton change" onclick="toggleMenu(this)" id="menubutton">
+          <div class="container">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+          </div>
+      </div>
+      <div class="boxescontainer" id="boxescontainer">
+        <div class="boxes" id="boxes">
+          <div class="filterbox">
+            <h3>LEGEND</h3>
+            <div class="forms">
+              <p class="legend-p"><span class="legend-span" style="background-color: #F63E02;"></span> Shallow Moonquakes</p>
+              <p class="legend-p"><span class="legend-span" style="background-color: #7c5da3;"></span> Deep Moonquakes</p>
+              <p class="legend-p"><span class="legend-span" style="background-color: #41969F;"></span> Artificial Impacts</p>
+        
+            </div>
+        
+          </div>
+          <div class="filterbox autorotate">
+            <div class="form-group">
+              <label for="rotate" style="cursor: pointer;">Auto-rotate <input type="checkbox" name="autorotate" checked id="rotate" /></label>
+            </div>
+            <!-- <span class="dropdownbutton open">&darr;</span>
+                    <p>FILTERS</p>
+                    <div class="forms">
+                      <div class="form-group">
+                        <input type="checkbox" name="autorotate" />
+                        <label for="autorotate">Auto-rotate</label>
+                      </div>
+                      <p>Year</p>
+                      <div style="width: 100%; height: 2px; background: white;"></div>
+                      <div style="display:flex; justify-content:space-between;">
+                        <div>
+                          1969
+                        </div>
+                        <div>
+                          1976
+                        </div>
+                      </div>
+                    </div> -->
+          </div>
+          
+        </div>
+        
+      </div>   
+      <div class="infocontainer">
+        <div class="filterbox info" id="infoDiv">
+          <h3>SELECTED POINT</h3>
+          <h5 style="font-weight: 400; opacity: .7; margin:0;">&#9432; Hover over a point to select one.</h5>
+          <p id="yearp">Year: <br /><span id="year">&mdash;</span></p>
+          <p id="latp">Latitude: <br /><span id="lat">&mdash;</span></p>
+          <p id="longp">Longtitude: <br /><span id="long">&mdash;</span></p>
+          <p id="typep">Type: <br /><span id="type">&mdash;</span></p>
+      
+        </div>  
+      </div>
+       
+    </div>
+  
+  </body> 
+</html>

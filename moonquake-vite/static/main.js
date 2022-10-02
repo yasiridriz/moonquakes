@@ -31,9 +31,8 @@ const pi = Math.PI
 const moonRadius = 15
 
 // util functions
-
 const axesHelper = new THREE.AxesHelper( 25 );
-scene.add( axesHelper );
+// scene.add( axesHelper );
 
 const drawSphere = (x, y, testZ) => {
     const sphereMaterial = new THREE.MeshStandardMaterial({color: "red"})
@@ -77,7 +76,7 @@ const moon = new THREE.Mesh( moonGeometry, moonMaterial );
 moon.castShadow = true;
 scene.add(moon);
 
-camera.position.z = 60; 
+camera.position.z = 30; 
 
 const addStar = () => {
   const g = new THREE.SphereGeometry(0.1, 24, 24);

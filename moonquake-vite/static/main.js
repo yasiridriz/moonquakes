@@ -62,7 +62,7 @@ scene.add(moon);
 
 const drawSphere = (x, y, testZ, color, size, data) => {
   const sphereMaterial = new THREE.MeshStandardMaterial({ color: color });
-  const SphereGeometry = new THREE.SphereGeometry(size, 40, 40);
+  const SphereGeometry = new THREE.SphereGeometry(size, 30, 30);
   const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial);
 
   moon.add(sphere);
@@ -71,20 +71,21 @@ const drawSphere = (x, y, testZ, color, size, data) => {
   sphere.position.y = y;
   sphere.position.z = testZ;
 
-  if (color === "yellow") {
+  if (color === "#F63E02") {
     smArr.push({sphere: sphere, data: data})
     spheres.push({sphere: sphere, data: data, type: "Shallow Moonquake"})
   }
 
-  if (color === "blue") {
+  if (color === "#41969F") {
     const newData = {...data, year: "19" + data.year}
     aiArr.push({sphere: sphere, data: newData})
     spheres.push({sphere: sphere, data: newData, type: "Artificial Impace"})
   }
 
-  if (color === "red") {
+  if (color === "#4E376D") {
     dmArr.push({sphere: sphere, data: data})
-    spheres.push({sphere: sphere, data: data, type: "Deep Moonquake"})
+    const newData = {...data, year:"No data."};
+    spheres.push({sphere: sphere, data: newData, type: "Deep Moonquake"})
   }  
 };
 
@@ -174,14 +175,14 @@ const getData = async (url) => {
 
 
 const drawAI = (AI) => {
-  const color = "blue";
+  const color = "#41969F";
   AI.Lat.forEach((lat, index) => {
     drawSphereWithLatLong(lat, AI.Long[index], color, 0.4, {year: AI.Y[index], lat: lat, long: AI.Long[index]});
   });
 };
 
 const drawDM = (DM) => {
-  const color = "red";
+  const color = "#4E376D";
   DM.Lat.forEach((lat, index) => {
     drawSphereWithLatLong(
       lat,
@@ -194,7 +195,7 @@ const drawDM = (DM) => {
 };
 
 const drawSmSpheres = (SM) => {
-  const color = "yellow";
+  const color = "#F63E02";
   SM.Lat.forEach((lat, index) => {
     drawSphereWithLatLong(
       lat,
@@ -212,8 +213,11 @@ window.onload = (event) => {
   getData("http://localhost:8000");
 };
 
-const light = new THREE.AmbientLight(0xffffff);
-scene.add(light);
+const light = new THREE.PointLight( 0xffffff, 1.3, 0 );
+light.position.set( 30, 30, 70 );
+scene.add(camera);
+camera.add(light);
+
 
 camera.position.z = 30;
 

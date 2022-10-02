@@ -34,23 +34,14 @@ const moonRadius = 15;
 const axesHelper = new THREE.AxesHelper(25);
 // scene.add( axesHelper );
 
-const moonTexture = new THREE.TextureLoader().load("./static/models/moon.jpg");
+const moonTexture = new THREE.TextureLoader().load("./public/models/moon.jpg");
 const moonDisplacement = new THREE.TextureLoader().load(
-  "./static/models/normal.jpg"
+  "./public/models/normal.jpg"
 );
 
-<<<<<<< HEAD
 const moonMaterial = new THREE.MeshStandardMaterial({
   map: moonTexture,
   displacementMap: moonDisplacement,
-=======
-const moonTexture = new THREE.TextureLoader().load('/models/moon.jpg')
-const moonDisplacement = new THREE.TextureLoader().load('/models/normal.jpg')
-
-const moonMaterial = new THREE.MeshStandardMaterial({ 
-    map: moonTexture, 
-    displacementMap: moonDisplacement,
->>>>>>> 2052564ed76ded741ddd55c6e8a83a8622eb1cfd
 });
 
 const moonGeometry = new THREE.SphereGeometry(moonRadius, 200, 200);
@@ -151,7 +142,7 @@ const data = {
 };
 
 const getData = async (url) => {
-  //const data = await fetch(url);
+//  const res = await fetch(url);
   console.log(data, "this is data", url);
   const { AI, SM, DM } = data;
   console.log("data fetched");

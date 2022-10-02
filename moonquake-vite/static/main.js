@@ -35,8 +35,8 @@ const axesHelper = new THREE.AxesHelper( 25 );
 // scene.add( axesHelper );
 
 
-const moonTexture = new THREE.TextureLoader().load('../static/models/moon.jpg')
-const moonDisplacement = new THREE.TextureLoader().load('../static/models/normal.jpg')
+const moonTexture = new THREE.TextureLoader().load('/models/moon.jpg')
+const moonDisplacement = new THREE.TextureLoader().load('/models/normal.jpg')
 
 const moonMaterial = new THREE.MeshStandardMaterial({ 
     map: moonTexture, 

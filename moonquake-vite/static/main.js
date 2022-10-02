@@ -38,6 +38,7 @@ const year = document.getElementById("year")
 const lat = document.getElementById("lat")
 const long = document.getElementById("long")
 const type = document.getElementById("type")
+const rotate = document.getElementById("rotate")
 
 // util functions
 const axesHelper = new THREE.AxesHelper(25);
@@ -307,10 +308,11 @@ const rendering = () => {
   }
 
   
-
-  moon.rotation.x += 0.0009;
-  moon.rotation.y += 0.0009;
-  moon.rotation.z += 0.0009;
+  if (rotate.checked) {    
+    moon.rotation.x += 0.0009;
+    moon.rotation.y += 0.0009;
+    moon.rotation.z += 0.0009;
+  }
 
   controls.update();
   renderer.render(scene, camera);

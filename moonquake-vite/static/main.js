@@ -72,17 +72,21 @@ const drawSphere = (x, y, testZ, color, size, data) => {
 
   if (color === "yellow") {
     smArr.push({sphere: sphere, data: data})
+    spheres.push({sphere: sphere, data: data, type: "Shallow Moonquake"})
   }
 
   if (color === "blue") {
-    aiArr.push({sphere: sphere, data: data})
+    const newData = {...data, year: "19" + data.year}
+    aiArr.push({sphere: sphere, data: newData})
+    spheres.push({sphere: sphere, data: newData, type: "Artificial Impace"})
   }
 
   if (color === "red") {
     dmArr.push({sphere: sphere, data: data})
+    spheres.push({sphere: sphere, data: data, type: "Deep Moonquake"})
   }
   
-  spheres.push({sphere: sphere, data: data})
+  
 };
 
 const drawSphereWithLatLong = (lat, long, color, size, data) => {
@@ -293,7 +297,7 @@ const rendering = () => {
       year.innerHTML = currentData.data.year
       lat.innerHTML = currentData.data.lat
       long.innerHTML = currentData.data.long
-      type.innerHTML = currentData.data.type;
+      type.innerHTML = currentData.type;
     }
   } 
   else {

@@ -23,13 +23,11 @@
         container = document.getElementById("boxescontainer");
         button = document.getElementById("menubutton");
 
-        // window.addEventListener('resize', function (event) {
-        //   if (window.innerWidth < 768) {
-        //     let check = container.style.display === "none";
-        //     if (check)
-        //       button.classList.remove("change");
-        //   }
-        // }, true);
+        if (window.innerWidth < 768)
+        {
+          button.classList.toggle("change");
+          container.classList.toggle("open");
+        }
       })
       function toggleMenu(x) {
           x.classList.toggle("change");

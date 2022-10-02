@@ -73,12 +73,13 @@ const drawSphere = (x, y, testZ) => {
 
 const drawSphereWithLatLong = (lat, long) => {
     
-    // const n = unitToRes * (getPixelData(context, x, y) / 127)
     const d = moonRadius  
-    
+  
     let x = d * Math.sin(long * pi/180)
     let y = d * Math.sin(lat * pi/180) 
-    let z = d * Math.sin((90 - long) * pi/180)
+    let z = (d * Math.sin((90 - long) * pi/180))
+    
+    // const n = unitToRes * (getPixelData(context, x, y) / 127)
     drawSphere(x, y, z)
 
 }
@@ -120,62 +121,89 @@ const addStar = () => {
   const g = new THREE.SphereGeometry(0.1, 24, 24);
   const m = new THREE.MeshStandardMaterial({ color: 0xffffff });
   const star = new THREE.Mesh(g, m);
-  const z = THREE.MathUtils.randFloatSpread(10) - 15;
-  const [x, y] = Array(2)
-    .fill()
-    .map(() => THREE.MathUtils.randFloatSpread(150));
-  star.position.set(x, y, z);
-  scene.add(star);
+  // const z = THREE.MathUtils.randFloatSpread(10) - 15;
+  
+  
+  for (let i = 0; i < 1000; i++) {
+    // let r = 50 * Math.sqrt(Math.random())
+    // let alpha =  Math.random() * 2 * pi
+    // let beta  =  Math.random() * 2 * pi
+  
+    // let x = r * Math.cos(alpha)
+    // let y = r * Math.sin(alpha)
+    // let z = r * Math.sin(alpha)
+    // let z = 0
+    // THREE.MathUtils.randFloatSpread(150)
+    
+    var u = Math.random();
+    var v = Math.random();
+    var theta = u * 2.0 * Math.PI;
+    var phi = Math.acos(2.0 * v - 1.0);
+    var r = 50 * Math.cbrt(Math.random());
+    var sinTheta = Math.sin(theta);
+    var cosTheta = Math.cos(theta);
+    var sinPhi = Math.sin(phi);
+    var cosPhi = Math.cos(phi);
+    var x = r * sinPhi * cosTheta;
+    var y = r * sinPhi * sinTheta;
+    var z = r * cosPhi;
+
+    if (Math.sqrt(x*x + y*y + z*z) > 45) {
+      star.position.set(x, y, z);
+      scene.add(star);
+    }
+  }
 };
 
 // rotation logic
-let prevClientX = 0;
-let prevClientY = 0;
+// let prevClientX = 0;
+// let prevClientY = 0;
 
-const mouseMoveEvent = (e) => {
-  if (e.clientX - window.innerWidth / 2 < prevClientX) {
-	const rotationVal = prevClientX - (e.clientX - window.innerWidth / 2)
-    moon.rotation.y -= rotationVal * 0.006;
-    prevClientX = e.clientX - window.innerWidth / 2;
-  } 
-  else if (e.clientX - window.innerWidth / 2 > prevClientX){
-	const rotationVal =  (e.clientX - window.innerWidth / 2) - prevClientX
-    moon.rotation.y += rotationVal * 0.006;
-    prevClientX = e.clientX - window.innerWidth / 2;
-  }
+// const mouseMoveEvent = (e) => {
+//   if (e.clientX - window.innerWidth / 2 < prevClientX) {
+// 	const rotationVal = prevClientX - (e.clientX - window.innerWidth / 2)
+//     moon.rotation.y -= rotationVal * 0.006;
+//     prevClientX = e.clientX - window.innerWidth / 2;
+//   } 
+//   else if (e.clientX - window.innerWidth / 2 > prevClientX){
+// 	const rotationVal =  (e.clientX - window.innerWidth / 2) - prevClientX
+//     moon.rotation.y += rotationVal * 0.006;
+//     prevClientX = e.clientX - window.innerWidth / 2;
+//   }
 
-  if (e.clientY - window.innerHeight / 2 < prevClientY) {
-    const rotationVal = prevClientY - (e.clientY - window.innerHeight / 2)
-    moon.rotation.x -= rotationVal * 0.006;
-    prevClientY = e.clientY - window.innerHeight / 2;
-  } 
-  else if(e.clientY - window.innerHeight / 2 > prevClientY){
-    const rotationVal =  (e.clientY - window.innerHeight / 2) - prevClientY
-    moon.rotation.x += rotationVal * 0.006;
-    prevClientY = e.clientY - window.innerHeight / 2;
-  }
-}
+//   if (e.clientY - window.innerHeight / 2 < prevClientY) {
+//     const rotationVal = prevClientY - (e.clientY - window.innerHeight / 2)
+//     moon.rotation.x -= rotationVal * 0.006;
+//     prevClientY = e.clientY - window.innerHeight / 2;
+//   } 
+//   else if(e.clientY - window.innerHeight / 2 > prevClientY){
+//     const rotationVal =  (e.clientY - window.innerHeight / 2) - prevClientY
+//     moon.rotation.x += rotationVal * 0.006;
+//     prevClientY = e.clientY - window.innerHeight / 2;
+//   }
+// }
 
-document.addEventListener("mousedown", (e) => {
-    document.addEventListener("mousemove", mouseMoveEvent);
-});
+// document.addEventListener("mousedown", (e) => {
+//     document.addEventListener("mousemove", mouseMoveEvent);
+// });
 
-const mouseUpEvent = (e) => {
-    document.removeEventListener("mousemove", mouseMoveEvent);
-}
+// const mouseUpEvent = (e) => {
+//     document.removeEventListener("mousemove", mouseMoveEvent);
+// }
 
-document.addEventListener("mouseup", mouseUpEvent);
+// document.addEventListener("mouseup", mouseUpEvent);
 
 Array(300).fill().forEach(addStar);
 
- const controls = new OrbitControls(camera, renderer.domElement);
-const rendering = () => {
-  requestAnimationFrame(rendering);
+const controls = new OrbitControls(camera, renderer.domElement);
 
-    // Constantly rotate box
-	// moon.rotation.y += 0.002;
-	 controls.update();
-    renderer.render(scene, camera);
+const rendering = () => {
+  controls.minDistance = 20
+  controls.maxDistance = 45
+  requestAnimationFrame(rendering);    
+	
+  controls.update();
+  renderer.render(scene, camera);
 }
 
 rendering();

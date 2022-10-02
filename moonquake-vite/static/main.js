@@ -34,12 +34,26 @@ const moonRadius = 15
 const axesHelper = new THREE.AxesHelper( 25 );
 // scene.add( axesHelper );
 
+
+const moonTexture = new THREE.TextureLoader().load('./static/models/moon.jpg')
+const moonDisplacement = new THREE.TextureLoader().load('./static/models/normal.jpg')
+
+const moonMaterial = new THREE.MeshStandardMaterial({ 
+    map: moonTexture, 
+    displacementMap: moonDisplacement,
+});
+
+const moonGeometry = new THREE.SphereGeometry( moonRadius, 200, 200 );
+const moon = new THREE.Mesh( moonGeometry, moonMaterial );
+moon.castShadow = true;
+scene.add(moon);
+
 const drawSphere = (x, y, testZ) => {
     const sphereMaterial = new THREE.MeshStandardMaterial({color: "red"})
     const SphereGeometry = new THREE.SphereGeometry(1, 40, 40)
     const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial)
     
-    scene.add(sphere)
+    moon.add(sphere)
 		console.log(`x: ${x}, y: ${y}`)
 		
     sphere.position.x = x ;
@@ -62,19 +76,6 @@ drawSphereWithLatLong(0, 0)
 
 const light = new THREE.AmbientLight(0xffffff);
 scene.add(light);
-
-const moonTexture = new THREE.TextureLoader().load('./static/models/moon.jpg')
-const moonDisplacement = new THREE.TextureLoader().load('./static/models/normal.jpg')
-
-const moonMaterial = new THREE.MeshStandardMaterial({ 
-    map: moonTexture, 
-    displacementMap: moonDisplacement,
-});
-
-const moonGeometry = new THREE.SphereGeometry( moonRadius, 200, 200 );
-const moon = new THREE.Mesh( moonGeometry, moonMaterial );
-moon.castShadow = true;
-scene.add(moon);
 
 camera.position.z = 30; 
 
@@ -113,6 +114,10 @@ controls.maxDistance = 45
 const rendering = () => {
   requestAnimationFrame(rendering);    
 	
+  moon.rotation.x += 0.0009;
+  moon.rotation.y += 0.0009;
+  moon.rotation.z += 0.0009;
+
   controls.update();
   renderer.render(scene, camera);
 }

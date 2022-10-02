@@ -34,9 +34,9 @@ const moonRadius = 15;
 const axesHelper = new THREE.AxesHelper(25);
 // scene.add( axesHelper );
 
-const moonTexture = new THREE.TextureLoader().load("./public/models/moon.jpg");
+const moonTexture = new THREE.TextureLoader().load("./models/moon.jpg");
 const moonDisplacement = new THREE.TextureLoader().load(
-  "./public/models/normal.jpg"
+  "./models/normal.jpg"
 );
 
 const moonMaterial = new THREE.MeshStandardMaterial({
@@ -65,14 +65,10 @@ const drawSphere = (x, y, testZ, color, size) => {
 const drawSphereWithLatLong = (lat, long, color, size) => {
   const d = moonRadius + 0.4;
 
-  /*    let x = d * Math.sin(long * pi/180)
-    let y = d * Math.sin(lat * pi/180) 
-    let z = (d * Math.sin((90 - long) * pi/180))
-	*/
-
   const x = d * Math.sin((lat * pi) / 180) * Math.cos((long * pi) / 180);
   const y = d * Math.sin((lat * pi) / 180) * Math.sin((long * pi) / 180);
   const z = d * Math.cos((lat * pi) / 180);
+  
   drawSphere(x, y, z, color, size);
 };
 
@@ -180,14 +176,11 @@ const drawSmSpheres = (SM) => {
   });
 };
 
-/*document.addEventListener("DOMContentLoaded", () => {
- getData();
-
-});*/
 window.onload = (event) => {
   console.log("fetching data");
   getData("http://localhost:8000");
 };
+
 const light = new THREE.AmbientLight(0xffffff);
 scene.add(light);
 

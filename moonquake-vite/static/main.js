@@ -171,14 +171,12 @@ const drawDM = (DM) => {
 const drawSmSpheres = (SM) => {
   const color = "yellow";
   SM.Lat.forEach((lat, index) => {
-    if (lat && SM.Long[index] < 90) {
-      drawSphereWithLatLong(
-        lat,
-        SM.Long[index],
-        color,
-        0.15 * SM.Magnitude[index]
-      );
-    }
+    drawSphereWithLatLong(
+      lat,
+      SM.Long[index],
+      color,
+      0.15 * SM.Magnitude[index]
+    );
   });
 };
 

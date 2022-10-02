@@ -1,7 +1,8 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 const scene = new THREE.Scene();
-
+const slider = document.getElementById("slider")
+const sliderYear = document.getElementById("sliderYear")
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
@@ -265,13 +266,135 @@ function onPointerMove( event ) {
 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 }
 
-spheres.forEach((sphere) => {
-  s = sphere.sphere
-  s.on('click', () => {
-    console.log(sphere.data)
-  })
-})
 
+//slider logic
+slider.addEventListener("input", (e) => {
+	const v = e.target.value;
+	const factor = 100/8;
+	
+	if(v < 5) {
+			sliderYear.innerText = "N/A"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year !== "No data.") {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+	}else if(v > 5 && v < factor){
+			
+			sliderYear.innerText = "1969"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1969) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor && v < factor*2){
+			
+			sliderYear.innerText = "1970"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1970) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > 2*factor && v < factor*3){
+			
+			sliderYear.innerText = "1971"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1971) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 3  && v < factor*4){
+			
+			sliderYear.innerText = "1972"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1972) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 4 && v < factor * 5){
+			
+			sliderYear.innerText = "1973"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1973) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 5  && v < factor*6){
+			
+			sliderYear.innerText = "1974"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1974) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 6  && v < factor* 7 ){
+			
+			sliderYear.innerText = "1975"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1975) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+	else if(v > factor * 7  && v < 100){
+			
+			sliderYear.innerText = "1976"
+			spheres.forEach(sphere => {
+				moon.add(sphere.sphere)
+				if(sphere.data.year != 1976) {
+					moon.remove(sphere.sphere);
+
+				}
+
+			})
+
+	}
+    else if(v == 100){
+		sliderYear.innerText = "All"
+		spheres.forEach(sphere => {
+			moon.add(sphere.sphere)
+
+		})
+	}
+	
+})
 const rendering = () => {
   requestAnimationFrame(rendering);
 

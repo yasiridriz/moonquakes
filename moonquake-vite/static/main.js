@@ -224,7 +224,7 @@ let hasClickedSh = false;
 let hasClickedD = false;
 let hasClickedA = false;
 function filterByType(e, type) {
-
+  const sliderText = sliderYear.innerText
   spheres.forEach((sphere) => {
     if (sphere.type == type) {
       moon.remove(sphere.sphere);
@@ -243,7 +243,17 @@ function filterByType(e, type) {
   if (isSelected) {
     spheres.forEach((sphere) => {
       if (sphere.type == type) {
-        moon.add(sphere.sphere);
+		if(sliderText == "All") {
+
+        	moon.add(sphere.sphere);
+		}else if(sliderText == "N/A") {
+			if(schpere.type == "Artificial") {
+				moon.add(sphere.sphere)
+			}
+		}else if(sliderText == sphere.data.year){
+			moon.add(sphere.sphere)
+		}
+
       }
     });
     

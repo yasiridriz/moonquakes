@@ -180,7 +180,7 @@ canvas {
       display: none;
     }
 
-    .info #yearp, .info #latp, .info #longp, .info #typep {
+    .info #yearp, .info #latp, .info #longp, .info #typep, .info #magnitudep {
       display: inline-block;
       margin: 0;
     }

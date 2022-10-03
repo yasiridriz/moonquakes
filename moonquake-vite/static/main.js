@@ -3,7 +3,8 @@ import * as THREE from "../node_modules/three/build/three.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { drawFuncs } from "./utils.js";
 import { data } from "./data.js";
-
+const magnitude = document.getElementById("magnitude");
+const magnitudep = document.getElementById("magnitudes");
 const sliderSize = document.getElementById("sliderSize");
 //constants
 const moonRadius = 15;
@@ -117,7 +118,7 @@ function onPointerMove(event) {
 
 //slider logic
 sliderSize.addEventListener("input" , (e) => {
-	const scale = e.target.value / 2 + 0.5;
+	const scale = e.target.value / 2 - 0.2;
 		spheres.forEach(sphere => {
 			sphere.sphere.scale.x = scale;
 			sphere.sphere.scale.y = scale;
@@ -231,6 +232,11 @@ const rendering = () => {
       lat.innerHTML = currentData.data.lat;
       long.innerHTML = currentData.data.long;
       type.innerHTML = currentData.type;
+	  const mangVal = currentData.data.depth ? String(currentData.data.depth) : currentData.data.magn ?
+	  currentData.data.magn : "No data.";
+	  const isDeep = currentData.data.depth ? true : false;
+      magnitudep.textContent = isDeep ? "Depth: " : "Magnitude: "; 
+	  magnitude.innerText = mangVal;
       rB = false;
     }
   } else {

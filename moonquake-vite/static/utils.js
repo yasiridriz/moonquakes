@@ -60,7 +60,7 @@ export const drawFuncs = (THREE, moon, moonRadius, spheres) => {
          SM.Long[index],
          color,
          0.15 * SM.Magnitude[index],
-         {year: SM.Year[index], lat: lat, long: SM.Long[index]}
+			   {year: SM.Year[index], lat: lat, long: SM.Long[index], magn: SM.Magnitude[index]}
        );
      });
    };

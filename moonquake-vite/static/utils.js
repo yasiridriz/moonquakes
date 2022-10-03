@@ -19,17 +19,17 @@ export const drawFuncs = (THREE, moon, moonRadius, spheres) => {
    
    
      if (color === "#F63E02") {
-       spheres.push({sphere: sphere, data: data, type: "Shallow Moonquake"})
+       spheres.push({sphere: sphere, data: data, type: "Shallow"})
      }
    
      if (color === "#41969F") {
        const newData = {...data, year: "19" + data.year}
-       spheres.push({sphere: sphere, data: newData, type: "Artificial Impact"})
+       spheres.push({sphere: sphere, data: newData, type: "Artificial"})
      }
    
      if (color === "#4E376D") {
        const newData = {...data, year:"No data."};
-       spheres.push({sphere: sphere, data: newData, type: "Deep Moonquake"})
+       spheres.push({sphere: sphere, data: newData, type: "Deep"})
      }  
    };
    

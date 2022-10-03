@@ -1,6 +1,12 @@
 {
     "name": "Moonquakes",
     "short_name": "Moonquakes",
+    "start_url": "/",
+    "display": "fullscreen",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "scope": "/",
+    "orientation": "portrait-primary",
     "icons": [
         {
             "src": "images/windows11/SmallTile.scale-100.png",
@@ -450,10 +456,5 @@
             "src": "images/ios/1024.png",
             "sizes": "1024x1024"
         }
-    ],
-    "scope": "",
-    "orientation": "portrait",
-    "display": "standalone",
-    "theme_color": "#000000",
-    "background_color": "#000000"
+    ]
 }

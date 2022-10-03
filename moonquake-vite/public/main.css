@@ -137,6 +137,17 @@ canvas {
     transform: translate(0, -3.2px) rotate(45deg);
   }
 
+.logo {
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  pointer-events: none;
+}
+.logo img {
+  width: 80px;
+  height: 80px;
+}
+
   @media screen and (max-width: 768px) {
     .menubutton {
       left: auto;
@@ -175,6 +186,12 @@ canvas {
     }
     .info h5 {
       font-size: 70%;
+    }
+    .logo {
+      bottom: auto;
+      right: auto;
+      top: 0;
+      left: 0;
     }
     
 

@@ -3,7 +3,7 @@ export const drawFuncs = (THREE, moon, moonRadius, spheres) => {
     
    
      const pi = Math.PI
-     const sphereMaterial = new THREE.MeshStandardMaterial({ color: color });
+     const sphereMaterial = new THREE.MeshStandardMaterial({ color: color, opacity: 0.5 });
      const SphereGeometry = new THREE.SphereGeometry(size, 30, 30);
      const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial);
    
@@ -24,7 +24,7 @@ export const drawFuncs = (THREE, moon, moonRadius, spheres) => {
    
      if (color === "#41969F") {
        const newData = {...data, year: "19" + data.year}
-       spheres.push({sphere: sphere, data: newData, type: "Artificial Impace"})
+       spheres.push({sphere: sphere, data: newData, type: "Artificial Impact"})
      }
    
      if (color === "#4E376D") {

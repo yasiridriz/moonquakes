@@ -3,6 +3,8 @@ import * as THREE from "../node_modules/three/build/three.module.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { drawFuncs } from "./utils.js";
 import { data } from "./data.js";
+
+const sliderSize = document.getElementById("sliderSize");
 //constants
 const moonRadius = 15;
 const spheres = [];
@@ -114,6 +116,15 @@ function onPointerMove(event) {
 }
 
 //slider logic
+sliderSize.addEventListener("input" , (e) => {
+	const scale = e.target.value / 2 + 0.5;
+		spheres.forEach(sphere => {
+			sphere.sphere.scale.x = scale;
+			sphere.sphere.scale.y = scale;
+			sphere.sphere.scale.z = scale;
+
+		})
+})
 slider.addEventListener("input", (e) => {
   const v = e.target.value;
   const factor = 100 / 8;

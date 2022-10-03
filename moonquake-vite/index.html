@@ -117,7 +117,7 @@
 
   </script>
   <div id="app">
-    <!-- TEAM SPACE EAGLES: Endrit, Krenar, And, Dijar, Jasir -->
+    <!-- TEAM SPACE EAGLES: Endrit, Krenar, Andi, Dijar, Jasir -->
     <div class="menubutton change" onclick="toggleMenu(this)" id="menubutton">
       <div class="container">
         <div class="bar1"></div>
@@ -129,13 +129,20 @@
       <div class="boxes" id="boxes">
         <div class="filterbox">
           <h3>LEGEND</h3>
+          <h5 style="font-weight: 400; opacity: .7; margin:0;">&#9432; Click to filter.</h5>
           <div class="forms">
-            <p class="legend-p"><span class="legend-span" style="background-color: #F63E02;"></span> Shallow Moonquakes
+            <p class="legend-p" id="shallow">
+              <span class="legend-span shallow-span"></span> 
+              Shallow Moonquakes
             </p>
-            <p class="legend-p"><span class="legend-span" style="background-color: #7c5da3;"></span> Deep Moonquakes</p>
-            <p class="legend-p"><span class="legend-span" style="background-color: #41969F;"></span> Artificial Impacts
+			      <p class="legend-p" id="deep" >
+              <span class="legend-span deep-span"></span> 
+              Deep Moonquakes
             </p>
-
+            <p class="legend-p" id="artificial">
+              <span class="legend-span ai-span"></span> 
+              Artificial Impacts
+            </p>
           </div>
 
         </div>

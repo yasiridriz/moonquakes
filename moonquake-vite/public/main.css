@@ -79,6 +79,23 @@ canvas {
     border-radius: 50%;
 }
 
+.legend-p {
+  transition: .25s all;
+  user-select: none;
+  cursor: pointer;
+}
+
+.legend-p:hover .legend-span {
+	transform: scale(1.3);
+}
+
+.legend-p:active {
+  transform: scale(.9);
+}
+
+.legend-p.legend-selected .legend-span {
+		background-color: #ccc; 
+}
 .infocontainer {
   position: fixed;
   width: auto;

@@ -62,11 +62,16 @@ scene.add(moon);
 
 // draw Functionality
 const { drawSM, drawAI, drawDM } = drawFuncs(THREE, moon, moonRadius, spheres);
-let data =  await getData("http://api.moonquakes.earth/data")
+ getData("http://api.moonquakes.earth/data").then(data => {
+
+
 const { SM, AI, DM } = data;
 drawSM(SM);
 drawAI(AI);
 drawDM(DM);
+
+
+})
 
 
 const light = new THREE.PointLight(0xffffff, 1, 0);

@@ -2,7 +2,7 @@ import * as THREE from "../node_modules/three/build/three.module.js";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { drawFuncs } from "./utils.js";
-import { data } from "./data.js";
+import { getData } from "./data.js";
 const magnitude = document.getElementById("magnitude");
 const magnitudep = document.getElementById("magnitudes");
 const sliderSize = document.getElementById("sliderSize");
@@ -62,11 +62,6 @@ scene.add(moon);
 
 // draw Functionality
 
-const { drawSM, drawAI, drawDM } = drawFuncs(THREE, moon, moonRadius, spheres);
-const { AI, SM, DM } = data;
-drawSM(SM);
-drawAI(AI);
-drawDM(DM);
 
 const light = new THREE.PointLight(0xffffff, 1, 0);
 light.position.set(30, 30, 70);
@@ -331,3 +326,9 @@ const rendering = () => {
 };
 
 rendering();
+const { drawSM, drawAI, drawDM } = drawFuncs(THREE, moon, moonRadius, spheres);
+let data =  await getData("http://api.moonquakes.earth/data")
+const { SM, AI, DM } = data;
+drawSM(SM);
+drawAI(AI);
+drawDM(DM);

@@ -103,6 +103,7 @@ Array(300).fill().forEach(addStar);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.minDistance = 20;
 controls.maxDistance = 45;
+controls.enablePan = false
 
 // raycaster
 const raycaster = new THREE.Raycaster();

@@ -6,6 +6,9 @@ import { data } from "./data.js";
 const magnitude = document.getElementById("magnitude");
 const magnitudep = document.getElementById("magnitudes");
 const sliderSize = document.getElementById("sliderSize");
+const shallow = document.getElementById("shallow");
+const deep = document.getElementById("deep");
+const artificial = document.getElementById("artificial");
 //constants
 const moonRadius = 15;
 const spheres = [];
@@ -103,7 +106,7 @@ Array(300).fill().forEach(addStar);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.minDistance = 20;
 controls.maxDistance = 45;
-controls.enablePan = false
+controls.enablePan = false;
 
 // raycaster
 const raycaster = new THREE.Raycaster();
@@ -118,15 +121,14 @@ function onPointerMove(event) {
 }
 
 //slider logic
-sliderSize.addEventListener("input" , (e) => {
-	const scale = e.target.value / 2 - 0.2;
-		spheres.forEach(sphere => {
-			sphere.sphere.scale.x = scale;
-			sphere.sphere.scale.y = scale;
-			sphere.sphere.scale.z = scale;
-
-		})
-})
+sliderSize.addEventListener("input", (e) => {
+  const scale = e.target.value / 2 - 0.2;
+  spheres.forEach((sphere) => {
+    sphere.sphere.scale.x = scale;
+    sphere.sphere.scale.y = scale;
+    sphere.sphere.scale.z = scale;
+  });
+});
 slider.addEventListener("input", (e) => {
   const v = e.target.value;
   const factor = 100 / 8;
@@ -210,6 +212,74 @@ slider.addEventListener("input", (e) => {
     });
   }
 });
+//filter by type
+let currentFilter = ["", ""];
+let hasClickedSh = false;
+let hasClickedD = false;
+let hasClickedA = false;
+function filterByType(e, type) {
+
+  spheres.forEach((sphere) => {
+    if (sphere.type == type) {
+      moon.remove(sphere.sphere);
+    }
+  });
+
+	let isSelected = false;
+	for(let i = 0; i < currentFilter.length; i++) {
+		if(currentFilter[i] == type) {
+			isSelected = true;
+		}
+
+
+	}
+ console.log(isSelected, "yo is Selected" , currentFilter)
+  if (isSelected) {
+    spheres.forEach((sphere) => {
+      if (sphere.type == type) {
+        moon.add(sphere.sphere);
+      }
+    });
+    
+	const index = currentFilter.indexOf(type);
+	currentFilter.splice(index, 1);
+  } else {
+
+	 currentFilter.push(type);
+  }
+ console.log(currentFilter)
+  if(type == "Shallow") {
+   hasClickedSh = !hasClickedSh
+  }else if(type == "Deep"){
+   hasClickedD = !hasClickedD
+  } else {
+	hasClickedA = !hasClickedA
+  }
+  if(hasClickedSh) {
+ 	  shallow.classList.add("legend-selected")
+  }else {
+ 	  shallow.classList.remove("legend-selected")
+
+  }
+
+  if(hasClickedD) {
+ 	  deep.classList.add("legend-selected")
+  }else {
+ 	  deep.classList.remove("legend-selected")
+
+  }
+  if(hasClickedA) {
+ 	  artificial.classList.add("legend-selected")
+  }else {
+ 	  artificial.classList.remove("legend-selected")
+
+  }
+  console.log("hiiii");
+}
+shallow.addEventListener("click", (e) => filterByType(e, "Shallow"));
+deep.addEventListener("click", (e) => filterByType(e, "Deep"));
+artificial.addEventListener("click", (e) => filterByType(e, "Artificial"));
+
 const rendering = () => {
   requestAnimationFrame(rendering);
 
@@ -233,11 +303,14 @@ const rendering = () => {
       lat.innerHTML = currentData.data.lat;
       long.innerHTML = currentData.data.long;
       type.innerHTML = currentData.type;
-	  const mangVal = currentData.data.depth ? String(currentData.data.depth) : currentData.data.magn ?
-	  currentData.data.magn : "No data.";
-	  const isDeep = currentData.data.depth ? true : false;
-      magnitudep.textContent = isDeep ? "Depth: " : "Magnitude: "; 
-	  magnitude.innerText = mangVal;
+      const mangVal = currentData.data.depth
+        ? String(currentData.data.depth)
+        : currentData.data.magn
+        ? currentData.data.magn
+        : "No data.";
+      const isDeep = currentData.data.depth ? true : false;
+      magnitudep.textContent = isDeep ? "Depth: " : "Magnitude: ";
+      magnitude.innerText = mangVal;
       rB = false;
     }
   } else {

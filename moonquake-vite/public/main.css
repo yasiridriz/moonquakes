@@ -71,14 +71,34 @@ canvas {
     cursor: pointer;
 }
 
+.shallow-span {
+		background-color:#F63E02 ;
+}
+.deep-span {
+		background-color: #7c5da3;
+}
+.ai-span {
+		background-color: #41969F;
+}
 .legend-span {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     margin-bottom: 2px;
     border-radius: 50%;
+	transition: 100ms ease-in;
+	cursor: pointer;
+}
+.legend-span:hover {
+	transform: scale(1.3);
+}
+.legend-p {
+		user-select: none;
 }
 
+.legend-selected {
+		background-color: white; 
+}
 .infocontainer {
   position: fixed;
   width: auto;

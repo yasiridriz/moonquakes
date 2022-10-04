@@ -226,7 +226,6 @@ slider.addEventListener("input", (e) => {
       moon.add(sphere.sphere);
     });
   }
- console.log(currentFilter);	
  if(currentFilter.includes("Shallow")) {
 		 spheres.forEach(sphere => {
 			 if(sphere.type == "Shallow") {
@@ -272,7 +271,6 @@ function filterByType(e, type) {
 
 
 	}
- console.log(isSelected, "yo is Selected" , currentFilter)
   if (isSelected) {
     spheres.forEach((sphere) => {
       if (sphere.type == type) {
@@ -280,7 +278,8 @@ function filterByType(e, type) {
 
         	moon.add(sphere.sphere);
 		}else if(sliderText == "N/A") {
-			if(sphere.type == "Artificial") {
+		
+			if(sphere.type == "Deep") {
 				moon.add(sphere.sphere)
 			}
 		}else if(sliderText == sphere.data.year){
@@ -323,7 +322,6 @@ function filterByType(e, type) {
  	  artificial.classList.remove("legend-selected")
 
   }
-  console.log("hiiii");
 }
 shallow.addEventListener("click", (e) => filterByType(e, "Shallow"));
 deep.addEventListener("click", (e) => filterByType(e, "Deep"));

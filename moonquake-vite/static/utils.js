@@ -3,10 +3,11 @@ export const drawFuncs = (THREE, moon, moonRadius, spheres) => {
     
    
      const pi = Math.PI
-     const sphereMaterial = new THREE.MeshStandardMaterial({ color: color, opacity: 0.5 });
+			const sphereMaterial = new THREE.MeshStandardMaterial({ color: color, opacity: 0.7, transparent: true });
      const SphereGeometry = new THREE.SphereGeometry(size, 30, 30);
-     const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial);
-   
+    const sphere = new THREE.Mesh(SphereGeometry, sphereMaterial);
+	 sphere.recieveShadow = false; 
+
      moon.add(sphere);
    
      const d = moonRadius + 0.4;

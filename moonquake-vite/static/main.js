@@ -2,7 +2,7 @@ import * as THREE from "../node_modules/three/build/three.module.js";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { drawFuncs } from "./utils.js";
-import { getData } from "./data.js";
+import { getData, hardCodedData } from "./data.js";
 const magnitude = document.getElementById("magnitude");
 const magnitudep = document.getElementById("magnitudes");
 const sliderSize = document.getElementById("sliderSize");
@@ -62,7 +62,8 @@ scene.add(moon);
 
 // draw Functionality
 const { drawSM, drawAI, drawDM } = drawFuncs(THREE, moon, moonRadius, spheres);
- getData("http://api.moonquakes.earth/data").then(data => {
+// @@ UNCOMMENT AND DELETE HARDCODE FROM data.js IF API IS FIXED
+/* getData("http://api.moonquakes.earth/data").then(data => {
 
 
 const { SM, AI, DM } = data;
@@ -71,13 +72,21 @@ drawAI(AI);
 drawDM(DM);
 
 
-})
+})*/
 
 
-const light = new THREE.PointLight(0xffffff, 1, 0);
+//@@ COMMENT IF API IS FIXED 
+const { SM, AI, DM } = hardCodedData;
+drawSM(SM);
+drawAI(AI);
+drawDM(DM);
+
+/*const light = new THREE.PointLight(0xffffff, 1, 0);
 light.position.set(30, 30, 70);
 scene.add(camera);
-camera.add(light);
+camera.add(light);*/
+const light = new THREE.AmbientLight( 0x404040, 3.5 ); // soft white light
+scene.add( light );
 
 camera.position.z = window.innerWidth < 768 ? 60 : 35;
 
@@ -217,6 +226,30 @@ slider.addEventListener("input", (e) => {
       moon.add(sphere.sphere);
     });
   }
+ console.log(currentFilter);	
+ if(currentFilter.includes("Shallow")) {
+		 spheres.forEach(sphere => {
+			 if(sphere.type == "Shallow") {
+					moon.remove(sphere.sphere);
+			 }
+		 })
+ }
+
+ if(currentFilter.includes("Deep")) {
+		 spheres.forEach(sphere => {
+			 if(sphere.type == "Deep") {
+					moon.remove(sphere.sphere);
+			 }
+		 })
+ }
+
+ if(currentFilter.includes("Artificial")) {
+		 spheres.forEach(sphere => {
+			 if(sphere.type == "Artificial") {
+					moon.remove(sphere.sphere);
+			 }
+		 })
+ }
 });
 //filter by type
 let currentFilter = ["", ""];
@@ -247,7 +280,7 @@ function filterByType(e, type) {
 
         	moon.add(sphere.sphere);
 		}else if(sliderText == "N/A") {
-			if(schpere.type == "Artificial") {
+			if(sphere.type == "Artificial") {
 				moon.add(sphere.sphere)
 			}
 		}else if(sliderText == sphere.data.year){
